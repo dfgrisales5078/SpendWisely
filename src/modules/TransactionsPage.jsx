@@ -18,7 +18,15 @@ function TransactionsPage() {
     const month = currentDate.toLocaleString('default', { month: 'long' });
     const year = currentDate.getFullYear();
     return `${month} ${year}`;
-  }  
+  }
+
+  const handleAmountChange = (event) => {
+    const formattedAmount = event.target.value
+      .replace(/[^\d.]/g, '') // Remove non-numeric characters except periods
+      .replace(/(\..*)\./g, '$1') // Remove multiple periods
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'); // Add commas
+    setAmount(formattedAmount);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,7 +34,7 @@ function TransactionsPage() {
     if (selectedCategory && amount) {
       const newTransaction = {
         category: selectedCategory,
-        amount: parseFloat(amount),
+        amount: parseFloat(amount.replace(/,/g, '')), // Remove commas before parsing
         type: transactionType,
         date: new Date().toLocaleDateString(),
       };
@@ -45,20 +53,20 @@ function TransactionsPage() {
 
   const totalIncome = transactions
     .filter(transaction => transaction.type === 'income')
-    .reduce((total, transaction) => total + transaction.amount, 0);
+    .reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
 
   const totalExpenses = transactions
     .filter(transaction => transaction.type === 'expense')
-    .reduce((total, transaction) => total + transaction.amount, 0);
+    .reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
 
-  const totalBalance = totalIncome - totalExpenses;
+  const totalBalance = parseFloat(totalIncome) - parseFloat(totalExpenses);
 
   const categories = transactionType === 'expense' ? expenseCategories : incomeCategories;
 
   return (
     <div className="container mt-5">
       <div className="mb-4">
-        <h3>Balance: ${totalBalance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
+        <h3>Total Balance: ${totalBalance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
         <h4>Total Income: ${totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h4>
         <h4>Total Expenses: -${totalExpenses.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h4>
       </div>
@@ -96,10 +104,12 @@ function TransactionsPage() {
           <div className="form-group">
             <label>Amount:</label>
             <input
-              type="number"
+              type="text"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={handleAmountChange}
               className="form-control"
+              placeholder="Enter amount"
+              disabled={!selectedCategory} // Disable when no category selected
             />
           </div>
           <div className="d-flex justify-content-end">
@@ -120,25 +130,26 @@ function TransactionsPage() {
         <thead>
           <tr>
             <th>Date</th>
-            <th>Type</th>
-            <th>Category</th>
             <th>Amount</th>
-            <th>Action</th>
+            <th>Category</th>
+            <th>Type</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {transactions.map((transaction, index) => (
             <tr key={index}>
               <td>{transaction.date}</td>
-              <td>{transaction.type}</td>
-              <td>{transaction.category}</td>
               <td className={transaction.type === 'expense' ? 'expense' : 'income'}>
-                {transaction.type === 'expense' ? (
-                  `-$${transaction.amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
-                ) : (
-                  `$${transaction.amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
-                )}
+                {transaction.type === 'expense' ? '-' : ''}
+                ${parseFloat(transaction.amount).toLocaleString('en-US', {
+                  style: 'decimal',
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </td>
+              <td>{transaction.category}</td>
+              <td>{transaction.type}</td>
               <td>
                 <button
                   className="btn btn-danger btn-sm"
