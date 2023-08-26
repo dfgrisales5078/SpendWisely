@@ -34,7 +34,7 @@ function TransactionsPage() {
     if (selectedCategory && amount) {
       const newTransaction = {
         category: selectedCategory,
-        amount: parseFloat(amount.replace(/,/g, "")), // Remove commas before parsing
+        amount: parseFloat(amount.replace(/,/g, "")),
         type: transactionType,
         date: new Date().toLocaleDateString(),
       };
@@ -119,7 +119,7 @@ function TransactionsPage() {
               onChange={handleAmountChange}
               className="form-control"
               placeholder="Enter amount"
-              disabled={!selectedCategory} // Disable when no category selected
+              disabled={!selectedCategory}
             />
           </div>
           <div className="d-flex justify-content-end">
