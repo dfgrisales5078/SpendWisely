@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -23,7 +23,9 @@ function LoginPage() {
         <div className="col-md-6">
           <div className="card border-0">
             <div className="card-body">
-              <h2 className="card-title text-center mb-4">Welcome to SpendWisely!</h2>
+              <h2 className="card-title text-center mb-4">
+                Welcome to SpendWisely!
+              </h2>
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <input
@@ -47,10 +49,14 @@ function LoginPage() {
                   <button type="submit" className="btn btn-primary btn-block">
                     Login
                   </button>
-                    <p className="text-center mt-3">
-                      <a href="register" className="btn btn-link">Not enrolled? Sign up now!</a>
-                      <a href="forgot-password" className="btn btn-link">Forgot password?</a>
-                    </p>
+                  <p className="text-center mt-3">
+                    <a href="register" className="btn btn-link">
+                      Not enrolled? Sign up now!
+                    </a>
+                    <a href="forgot-password" className="btn btn-link">
+                      Forgot password?
+                    </a>
+                  </p>
                 </div>
               </form>
             </div>

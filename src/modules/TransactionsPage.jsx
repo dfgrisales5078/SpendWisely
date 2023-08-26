@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function TransactionsPage() {
   const [transactions, setTransactions] = useState([]);
-  const [amount, setAmount] = useState('');
-  const [transactionType, setTransactionType] = useState('expense');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [amount, setAmount] = useState("");
+  const [transactionType, setTransactionType] = useState("expense");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  const expenseCategories = ['Food', 'Transportation', 'Utilities'];
-  const incomeCategories = ['Salary', 'Freelance', 'Investments'];
+  const expenseCategories = ["Food", "Transportation", "Utilities"];
+  const incomeCategories = ["Salary", "Freelance", "Investments"];
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -15,16 +15,16 @@ function TransactionsPage() {
 
   function getCurrentMonthYear() {
     const currentDate = new Date();
-    const month = currentDate.toLocaleString('default', { month: 'long' });
+    const month = currentDate.toLocaleString("default", { month: "long" });
     const year = currentDate.getFullYear();
     return `${month} ${year}`;
   }
 
   const handleAmountChange = (event) => {
     const formattedAmount = event.target.value
-      .replace(/[^\d.]/g, '') // Remove non-numeric characters except periods
-      .replace(/(\..*)\./g, '$1') // Remove multiple periods
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'); // Add commas
+      .replace(/[^\d.]/g, "") // Remove non-numeric characters except periods
+      .replace(/(\..*)\./g, "$1") // Remove multiple periods
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"); // Add commas
     setAmount(formattedAmount);
   };
 
@@ -34,14 +34,14 @@ function TransactionsPage() {
     if (selectedCategory && amount) {
       const newTransaction = {
         category: selectedCategory,
-        amount: parseFloat(amount.replace(/,/g, '')), // Remove commas before parsing
+        amount: parseFloat(amount.replace(/,/g, "")), // Remove commas before parsing
         type: transactionType,
         date: new Date().toLocaleDateString(),
       };
 
       setTransactions([...transactions, newTransaction]);
-      setSelectedCategory('');
-      setAmount('');
+      setSelectedCategory("");
+      setAmount("");
     }
   };
 
@@ -52,23 +52,33 @@ function TransactionsPage() {
   };
 
   const totalIncome = transactions
-    .filter(transaction => transaction.type === 'income')
+    .filter((transaction) => transaction.type === "income")
     .reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
 
   const totalExpenses = transactions
-    .filter(transaction => transaction.type === 'expense')
+    .filter((transaction) => transaction.type === "expense")
     .reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
 
   const totalBalance = parseFloat(totalIncome) - parseFloat(totalExpenses);
 
-  const categories = transactionType === 'expense' ? expenseCategories : incomeCategories;
+  const categories =
+    transactionType === "expense" ? expenseCategories : incomeCategories;
 
   return (
     <div className="container mt-5">
       <div className="mb-4">
-        <h3>Total Balance: ${totalBalance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
-        <h4>Total Income: ${totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h4>
-        <h4>Total Expenses: -${totalExpenses.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h4>
+        <h3>
+          Total Balance: $
+          {totalBalance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+        </h3>
+        <h4>
+          Total Income: $
+          {totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+        </h4>
+        <h4>
+          Total Expenses: -$
+          {totalExpenses.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+        </h4>
       </div>
       <div className="mb-4">
         <form onSubmit={handleSubmit}>
@@ -78,7 +88,7 @@ function TransactionsPage() {
               value={transactionType}
               onChange={(e) => {
                 setTransactionType(e.target.value);
-                setSelectedCategory('');
+                setSelectedCategory("");
               }}
               className="form-control"
             >
@@ -94,7 +104,7 @@ function TransactionsPage() {
               className="form-control"
             >
               <option value="">Select a category</option>
-              {categories.map(category => (
+              {categories.map((category) => (
                 <option key={category} value={category}>
                   {category}
                 </option>
@@ -140,10 +150,14 @@ function TransactionsPage() {
           {transactions.map((transaction, index) => (
             <tr key={index}>
               <td>{transaction.date}</td>
-              <td className={transaction.type === 'expense' ? 'expense' : 'income'}>
-                {transaction.type === 'expense' ? '-' : ''}
-                ${parseFloat(transaction.amount).toLocaleString('en-US', {
-                  style: 'decimal',
+              <td
+                className={
+                  transaction.type === "expense" ? "expense" : "income"
+                }
+              >
+                {transaction.type === "expense" ? "-" : ""}$
+                {parseFloat(transaction.amount).toLocaleString("en-US", {
+                  style: "decimal",
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}
