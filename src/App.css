@@ -19,3 +19,11 @@
   justify-content: center;
   height: calc(100vh - 100px);
 }
+
+.expense {
+  color: red;
+}
+
+.income {
+  color: green;
+}
