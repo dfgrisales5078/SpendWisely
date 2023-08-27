@@ -5,6 +5,7 @@ function TransactionsPage() {
   const [amount, setAmount] = useState("");
   const [transactionType, setTransactionType] = useState("expense");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [filterType, setFilterType] = useState("all");
 
   const expenseCategories = ["Food", "Transportation", "Utilities"];
   const incomeCategories = ["Salary", "Freelance", "Investments"];
@@ -34,7 +35,7 @@ function TransactionsPage() {
     if (selectedCategory && amount) {
       const newTransaction = {
         category: selectedCategory,
-        amount: parseFloat(amount.replace(/,/g, "")),
+        amount: parseFloat(amount.replace(/,/g, "")), // Remove commas before parsing
         type: transactionType,
         date: new Date().toLocaleDateString(),
       };
@@ -50,6 +51,15 @@ function TransactionsPage() {
     updatedTransactions.splice(index, 1);
     setTransactions(updatedTransactions);
   };
+
+  const handleFilterChange = (type) => {
+    setFilterType(type);
+  };
+
+  const filteredTransactions =
+    filterType === "all"
+      ? transactions
+      : transactions.filter((transaction) => transaction.type === filterType);
 
   const totalIncome = transactions
     .filter((transaction) => transaction.type === "income")
@@ -67,10 +77,10 @@ function TransactionsPage() {
   return (
     <div className="container mt-5">
       <div className="mb-4">
-        <h3>
+        <h4>
           Total Balance: $
           {totalBalance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-        </h3>
+        </h4>
         <h4>
           Total Income: $
           {totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
@@ -119,7 +129,6 @@ function TransactionsPage() {
               onChange={handleAmountChange}
               className="form-control"
               placeholder="Enter amount"
-              disabled={!selectedCategory}
             />
           </div>
           <div className="d-flex justify-content-end">
@@ -135,6 +144,32 @@ function TransactionsPage() {
       </div>
       <div className="mb-4">
         <h3>Transaction history {getCurrentMonthYear()}:</h3>
+        <div className="mb-4 d-flex justify-content-end">
+          <button
+            className={`btn ${
+              filterType === "all" ? "btn-primary" : "btn-light"
+            }`}
+            onClick={() => handleFilterChange("all")}
+          >
+            All
+          </button>
+          <button
+            className={`btn ${
+              filterType === "income" ? "btn-success" : "btn-light"
+            }`}
+            onClick={() => handleFilterChange("income")}
+          >
+            Income
+          </button>
+          <button
+            className={`btn ${
+              filterType === "expense" ? "btn-danger" : "btn-light"
+            }`}
+            onClick={() => handleFilterChange("expense")}
+          >
+            Expenses
+          </button>
+        </div>
       </div>
       <table className="table">
         <thead>
@@ -143,11 +178,11 @@ function TransactionsPage() {
             <th>Amount</th>
             <th>Category</th>
             <th>Type</th>
-            <th></th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {transactions.map((transaction, index) => (
+          {filteredTransactions.map((transaction, index) => (
             <tr key={index}>
               <td>{transaction.date}</td>
               <td
