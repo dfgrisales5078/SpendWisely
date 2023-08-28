@@ -178,10 +178,10 @@ function TransactionsPage() {
         </form>
       </div>
       <h4>Transaction history {getCurrentMonthYear()}:</h4>
-      <table className="table">
+      <table className="table centered-content">
         <thead>
           <tr>
-            <th colSpan="5" className="text-center">
+            <th colSpan="5" className="text-right">
               {filterTypes.map((filter) => (
                 <button
                   key={filter.label}
