@@ -90,13 +90,19 @@ function TransactionsPage() {
   const categories =
     transactionType === "Expense" ? expenseCategories : incomeCategories;
 
+  const filterTypes = [
+    { label: "All", className: "btn-primary" },
+    { label: "Income", className: "btn-success" },
+    { label: "Expense", className: "btn-danger" },
+  ];
+
   return (
     <div className="container mt-5 static-content">
       <div className="mb-4">
-        <h4>
+        <h2>
           Total Balance: $
           {totalBalance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-        </h4>
+        </h2>
         <h4>
           Total Income: $
           {totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
@@ -158,37 +164,24 @@ function TransactionsPage() {
           </div>
         </form>
       </div>
-      <div className="mb-4">
-        <h3>Transaction history {getCurrentMonthYear()}:</h3>
-        <div className="mb-4 d-flex justify-content-end">
-          <button
-            className={`btn ${
-              filterType === "All" ? "btn-primary" : "btn-light"
-            }`}
-            onClick={() => handleFilterChange("All")}
-          >
-            All
-          </button>
-          <button
-            className={`btn ${
-              filterType === "Income" ? "btn-success" : "btn-light"
-            }`}
-            onClick={() => handleFilterChange("Income")}
-          >
-            Income
-          </button>
-          <button
-            className={`btn ${
-              filterType === "Expense" ? "btn-danger" : "btn-light"
-            }`}
-            onClick={() => handleFilterChange("Expense")}
-          >
-            Expenses
-          </button>
-        </div>
-      </div>
+      <h4>Transaction history {getCurrentMonthYear()}:</h4>
       <table className="table">
         <thead>
+          <tr>
+            <th colSpan="5" className="text-center">
+              {filterTypes.map((filter) => (
+                <button
+                  key={filter.label}
+                  className={`btn ${
+                    filterType === filter.label ? filter.className : "btn-light"
+                  }`}
+                  onClick={() => handleFilterChange(filter.label)}
+                >
+                  {filter.label}
+                </button>
+              ))}
+            </th>
+          </tr>
           <tr>
             <th>Date</th>
             <th>Amount</th>
@@ -204,7 +197,7 @@ function TransactionsPage() {
                 <td>{transaction.date}</td>
                 <td
                   className={
-                    transaction.type === "Expense" ? "Expense" : "Income" // Add class based on transaction type
+                    transaction.type === "Expense" ? "Expense" : "Income"
                   }
                 >
                   {transaction.type === "Expense" ? "-" : ""}$
