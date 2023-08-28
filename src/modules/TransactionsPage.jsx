@@ -16,14 +16,19 @@ function TransactionsPage() {
     "Medical",
     "Debt",
     "Entertainment",
-    "Other",
+    "Shopping",
+    "Personal Care",
+    "Education",
+    "Travel",
+    "Donations",
+    "Other expense",
   ];
   const incomeCategories = [
     "Salary",
     "Freelance",
     "Investments",
     "Gifts",
-    "Other",
+    "Other income",
   ];
 
   const handleCategoryChange = (event) => {
@@ -99,7 +104,15 @@ function TransactionsPage() {
   return (
     <div className="container mt-5 static-content">
       <div className="mb-4">
-        <h2>
+        <h2
+          className={
+            totalBalance > 0
+              ? "Income"
+              : totalBalance < 0
+              ? "Expense"
+              : "Neutral"
+          }
+        >
           Total Balance: $
           {totalBalance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
         </h2>
