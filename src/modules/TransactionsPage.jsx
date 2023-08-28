@@ -3,9 +3,9 @@ import React, { useState } from "react";
 function TransactionsPage() {
   const [transactions, setTransactions] = useState([]);
   const [amount, setAmount] = useState("");
-  const [transactionType, setTransactionType] = useState("expense");
+  const [transactionType, setTransactionType] = useState("Expense");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [filterType, setFilterType] = useState("all");
+  const [filterType, setFilterType] = useState("All");
 
   const expenseCategories = [
     "Food",
@@ -73,25 +73,25 @@ function TransactionsPage() {
   };
 
   const filteredTransactions =
-    filterType === "all"
+    filterType === "All"
       ? transactions
       : transactions.filter((transaction) => transaction.type === filterType);
 
   const totalIncome = transactions
-    .filter((transaction) => transaction.type === "income")
+    .filter((transaction) => transaction.type === "Income")
     .reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
 
   const totalExpenses = transactions
-    .filter((transaction) => transaction.type === "expense")
+    .filter((transaction) => transaction.type === "Expense")
     .reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
 
   const totalBalance = parseFloat(totalIncome) - parseFloat(totalExpenses);
 
   const categories =
-    transactionType === "expense" ? expenseCategories : incomeCategories;
+    transactionType === "Expense" ? expenseCategories : incomeCategories;
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 static-content">
       <div className="mb-4">
         <h4>
           Total Balance: $
@@ -118,8 +118,8 @@ function TransactionsPage() {
               }}
               className="form-control"
             >
-              <option value="expense">Expense</option>
-              <option value="income">Income</option>
+              <option value="Expense">Expense</option>
+              <option value="Income">Income</option>
             </select>
           </div>
           <div className="form-group">
@@ -163,25 +163,25 @@ function TransactionsPage() {
         <div className="mb-4 d-flex justify-content-end">
           <button
             className={`btn ${
-              filterType === "all" ? "btn-primary" : "btn-light"
+              filterType === "All" ? "btn-primary" : "btn-light"
             }`}
-            onClick={() => handleFilterChange("all")}
+            onClick={() => handleFilterChange("All")}
           >
             All
           </button>
           <button
             className={`btn ${
-              filterType === "income" ? "btn-success" : "btn-light"
+              filterType === "Income" ? "btn-success" : "btn-light"
             }`}
-            onClick={() => handleFilterChange("income")}
+            onClick={() => handleFilterChange("Income")}
           >
             Income
           </button>
           <button
             className={`btn ${
-              filterType === "expense" ? "btn-danger" : "btn-light"
+              filterType === "Expense" ? "btn-danger" : "btn-light"
             }`}
-            onClick={() => handleFilterChange("expense")}
+            onClick={() => handleFilterChange("Expense")}
           >
             Expenses
           </button>
@@ -198,33 +198,41 @@ function TransactionsPage() {
           </tr>
         </thead>
         <tbody>
-          {filteredTransactions.map((transaction, index) => (
-            <tr key={index}>
-              <td>{transaction.date}</td>
-              <td
-                className={
-                  transaction.type === "expense" ? "expense" : "income"
-                }
-              >
-                {transaction.type === "expense" ? "-" : ""}$
-                {parseFloat(transaction.amount).toLocaleString("en-US", {
-                  style: "decimal",
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </td>
-              <td>{transaction.category}</td>
-              <td>{transaction.type}</td>
-              <td>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDeleteTransaction(index)}
+          {filteredTransactions.length ? (
+            filteredTransactions.map((transaction, index) => (
+              <tr key={index}>
+                <td>{transaction.date}</td>
+                <td
+                  className={
+                    transaction.type === "Expense" ? "Expense" : "Income" // Add class based on transaction type
+                  }
                 >
-                  Delete
-                </button>
+                  {transaction.type === "Expense" ? "-" : ""}$
+                  {parseFloat(transaction.amount).toLocaleString("en-US", {
+                    style: "decimal",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </td>
+                <td>{transaction.category}</td>
+                <td>{transaction.type}</td>
+                <td>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDeleteTransaction(index)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" className="centered-content">
+                No transactions found.
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>
