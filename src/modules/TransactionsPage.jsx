@@ -235,7 +235,7 @@ function TransactionsPage() {
           ) : (
             <tr>
               <td colSpan="5" className="centered-content">
-                No transactions found.
+                <h4>No transactions found.</h4>
               </td>
             </tr>
           )}
