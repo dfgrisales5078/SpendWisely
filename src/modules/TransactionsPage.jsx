@@ -7,8 +7,24 @@ function TransactionsPage() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [filterType, setFilterType] = useState("all");
 
-  const expenseCategories = ["Food", "Transportation", "Utilities"];
-  const incomeCategories = ["Salary", "Freelance", "Investments"];
+  const expenseCategories = [
+    "Food",
+    "Transportation",
+    "Utilities",
+    "Housing",
+    "Insurances",
+    "Medical",
+    "Debt",
+    "Entertainment",
+    "Other",
+  ];
+  const incomeCategories = [
+    "Salary",
+    "Freelance",
+    "Investments",
+    "Gifts",
+    "Other",
+  ];
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
