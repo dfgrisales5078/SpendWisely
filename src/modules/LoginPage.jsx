@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -12,9 +15,30 @@ function LoginPage() {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  // TODO - use library to hash password before sending to server
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle authentication logic
+
+    try {
+      const response = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        navigate("/transactions");
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      console.error("There was an error logging in", error);
+      setError("An unexpected error occurred. Please try again.");
+    }
   };
 
   return (
@@ -46,6 +70,23 @@ function LoginPage() {
                   />
                 </div>
                 <div>
+                  {error && (
+                    <div
+                      className="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                    >
+                      {error}
+                      <button
+                        type="button"
+                        className="close"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                        onClick={() => setError("")}
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  )}
                   <button type="submit" className="btn btn-primary btn-block">
                     Login
                   </button>

@@ -12,7 +12,7 @@ function TransactionsPage() {
 
   const fetchTransactions = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/transactions/");
+      const response = await fetch("http://localhost:4000/transactions/");
       if (!response.ok) {
         throw new Error("Failed to fetch transactions.");
       }
@@ -78,21 +78,18 @@ function TransactionsPage() {
         userId: userId,
         category: selectedCategory,
         amount: parseFloat(amount.replace(/,/g, "")),
-        transactionType: transactionType,
+        transactionType: transactionType.toLowerCase(),
         transactionDate: new Date().toISOString().slice(0, 10),
       };
 
       try {
-        const response = await fetch(
-          "http://localhost:4000/api/transactions/",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newTransaction),
-          }
-        );
+        const response = await fetch("http://localhost:4000/transactions/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newTransaction),
+        });
 
         if (!response.ok) {
           throw new Error("Failed to add transaction.");
@@ -112,7 +109,7 @@ function TransactionsPage() {
 
   const handleDeleteTransaction = async (transactionId) => {
     try {
-      await fetch(`http://localhost:4000/api/transactions/${transactionId}`, {
+      await fetch(`http://localhost:4000/transactions/${transactionId}`, {
         method: "DELETE",
       });
       const updatedTransactions = transactions.filter(
