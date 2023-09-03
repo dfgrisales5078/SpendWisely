@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function TransactionsPage() {
   const [transactions, setTransactions] = useState([]);
@@ -6,6 +6,26 @@ function TransactionsPage() {
   const [transactionType, setTransactionType] = useState("Expense");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [filterType, setFilterType] = useState("All");
+
+  // temporarily hardcoded user id
+  const userId = 1;
+
+  const fetchTransactions = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/transactions/");
+      if (!response.ok) {
+        throw new Error("Failed to fetch transactions.");
+      }
+      const transactions = await response.json();
+      setTransactions(transactions);
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
 
   const expenseCategories = [
     "Food",
@@ -50,27 +70,58 @@ function TransactionsPage() {
     setAmount(formattedAmount);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (selectedCategory && amount) {
       const newTransaction = {
+        userId: userId,
         category: selectedCategory,
-        amount: parseFloat(amount.replace(/,/g, "")), // Remove commas before parsing
-        type: transactionType,
-        date: new Date().toLocaleDateString(),
+        amount: parseFloat(amount.replace(/,/g, "")),
+        transactionType: transactionType,
+        transactionDate: new Date().toISOString().slice(0, 10),
       };
 
-      setTransactions([...transactions, newTransaction]);
-      setSelectedCategory("");
-      setAmount("");
+      try {
+        const response = await fetch(
+          "http://localhost:4000/api/transactions/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newTransaction),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to add transaction.");
+        }
+
+        // If POST was successful, fetch the latest transactions
+        fetchTransactions();
+
+        // Reset your form fields
+        setSelectedCategory("");
+        setAmount("");
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
   };
 
-  const handleDeleteTransaction = (index) => {
-    const updatedTransactions = [...transactions];
-    updatedTransactions.splice(index, 1);
-    setTransactions(updatedTransactions);
+  const handleDeleteTransaction = async (transactionId) => {
+    try {
+      await fetch(`http://localhost:4000/api/transactions/${transactionId}`, {
+        method: "DELETE",
+      });
+      const updatedTransactions = transactions.filter(
+        (t) => t.transaction_id !== transactionId
+      );
+      setTransactions(updatedTransactions);
+    } catch (error) {
+      console.error("Error deleting transaction:", error);
+    }
   };
 
   const handleFilterChange = (type) => {
@@ -80,14 +131,17 @@ function TransactionsPage() {
   const filteredTransactions =
     filterType === "All"
       ? transactions
-      : transactions.filter((transaction) => transaction.type === filterType);
+      : transactions.filter(
+          (transaction) =>
+            transaction.transaction_type === filterType.toLowerCase()
+        );
 
   const totalIncome = transactions
-    .filter((transaction) => transaction.type === "Income")
+    .filter((transaction) => transaction.transaction_type === "Income")
     .reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
 
   const totalExpenses = transactions
-    .filter((transaction) => transaction.type === "Expense")
+    .filter((transaction) => transaction.transaction_type === "Expense")
     .reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
 
   const totalBalance = parseFloat(totalIncome) - parseFloat(totalExpenses);
@@ -207,25 +261,37 @@ function TransactionsPage() {
           {filteredTransactions.length ? (
             filteredTransactions.map((transaction, index) => (
               <tr key={index}>
-                <td>{transaction.date}</td>
+                <td>
+                  {new Date(transaction.transaction_date).toLocaleDateString()}
+                </td>
                 <td
                   className={
-                    transaction.type === "Expense" ? "Expense" : "Income"
+                    transaction.transaction_type === "expense"
+                      ? "Expense"
+                      : "Income"
                   }
                 >
-                  {transaction.type === "Expense" ? "-" : ""}$
-                  {parseFloat(transaction.amount).toLocaleString("en-US", {
-                    style: "decimal",
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  {transaction.transaction_type === "expense" ? "-" : ""}$
+                  {parseFloat(transaction.transaction_amount).toLocaleString(
+                    "en-US",
+                    {
+                      style: "decimal",
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    }
+                  )}
                 </td>
-                <td>{transaction.category}</td>
-                <td>{transaction.type}</td>
+                <td>{transaction.category_name}</td>
+                <td>
+                  {transaction.transaction_type.charAt(0).toUpperCase() +
+                    transaction.transaction_type.slice(1)}
+                </td>
                 <td>
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleDeleteTransaction(index)}
+                    onClick={() =>
+                      handleDeleteTransaction(transaction.transaction_id)
+                    }
                   >
                     Delete
                   </button>
