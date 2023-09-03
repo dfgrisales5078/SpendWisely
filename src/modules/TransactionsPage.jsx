@@ -137,12 +137,20 @@ function TransactionsPage() {
         );
 
   const totalIncome = transactions
-    .filter((transaction) => transaction.transaction_type === "Income")
-    .reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
+    .filter((transaction) => transaction.transaction_type === "income")
+    .reduce(
+      (total, transaction) =>
+        total + parseFloat(transaction.transaction_amount),
+      0
+    );
 
   const totalExpenses = transactions
-    .filter((transaction) => transaction.transaction_type === "Expense")
-    .reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
+    .filter((transaction) => transaction.transaction_type === "expense")
+    .reduce(
+      (total, transaction) =>
+        total + parseFloat(transaction.transaction_amount),
+      0
+    );
 
   const totalBalance = parseFloat(totalIncome) - parseFloat(totalExpenses);
 
