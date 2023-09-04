@@ -80,6 +80,7 @@ function TransactionsPage() {
         amount: parseFloat(amount.replace(/,/g, "")),
         transactionType: transactionType.toLowerCase(),
         transactionDate: new Date().toISOString().slice(0, 10),
+        timestamp: new Date().toISOString(),
       };
 
       try {
