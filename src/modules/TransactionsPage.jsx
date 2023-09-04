@@ -7,22 +7,6 @@ function TransactionsPage() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [filterType, setFilterType] = useState("All");
 
-  // temporarily hardcoded user id
-  const userId = 1;
-
-  const fetchTransactions = async () => {
-    try {
-      const response = await fetch("http://localhost:4000/transactions/");
-      if (!response.ok) {
-        throw new Error("Failed to fetch transactions.");
-      }
-      const transactions = await response.json();
-      setTransactions(transactions);
-    } catch (error) {
-      console.error("Error fetching transactions:", error);
-    }
-  };
-
   useEffect(() => {
     fetchTransactions();
   }, []);
@@ -71,7 +55,22 @@ function TransactionsPage() {
     setAmount(formattedAmount);
   };
 
-  const handleSubmit = async (event) => {
+  // temporarily hardcoded user id
+  const userId = 1;
+  const fetchTransactions = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/transactions/");
+      if (!response.ok) {
+        throw new Error("Failed to fetch transactions.");
+      }
+      const transactions = await response.json();
+      setTransactions(transactions);
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+    }
+  };
+
+  const handleAddTransaction = async (event) => {
     event.preventDefault();
 
     if (selectedCategory && amount) {
@@ -134,6 +133,11 @@ function TransactionsPage() {
             transaction.transaction_type === filterType.toLowerCase()
         );
 
+  // Sort the transactions by date in descending order
+  filteredTransactions.sort(
+    (a, b) => new Date(b.transaction_date) - new Date(a.transaction_date)
+  );
+
   const totalIncome = transactions
     .filter((transaction) => transaction.transaction_type === "income")
     .reduce(
@@ -186,7 +190,7 @@ function TransactionsPage() {
         </h4>
       </div>
       <div className="mb-4">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleAddTransaction}>
           <div className="form-group">
             <label>Type:</label>
             <select
