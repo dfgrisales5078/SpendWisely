@@ -62,16 +62,21 @@ function LoginPage({ setIsLoggedIn }) {
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <input
-                    type="text"
+                    type="email"
+                    id="email"
+                    name="email"
                     value={email}
                     onChange={handleEmailChange}
                     className="form-control"
                     placeholder="Enter your email"
+                    autoComplete="email"
                   />
                 </div>
                 <div className="form-group">
                   <input
                     type="password"
+                    id="password"
+                    name="password"
                     value={password}
                     onChange={handlePasswordChange}
                     className="form-control"
