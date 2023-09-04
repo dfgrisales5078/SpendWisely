@@ -63,10 +63,11 @@ function TransactionsPage() {
   }
 
   const handleAmountChange = (event) => {
+    // format amount input to have commas
     const formattedAmount = event.target.value
-      .replace(/[^\d.]/g, "") // Remove non-numeric characters except periods
-      .replace(/(\..*)\./g, "$1") // Remove multiple periods
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"); // Add commas
+      .replace(/[^\d.]/g, "")
+      .replace(/(\..*)\./g, "$1")
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     setAmount(formattedAmount);
   };
 
