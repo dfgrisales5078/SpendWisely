@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
+function LoginPage({ setIsLoggedIn }) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const loggedInStatus = localStorage.getItem("isLoggedIn");
+    if (loggedInStatus === "true") {
+      navigate("/transactions");
+    }
+  }, [navigate]);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -31,6 +38,8 @@ function LoginPage() {
       const data = await response.json();
 
       if (response.status === 200) {
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", "true");
         navigate("/transactions");
       } else {
         setError(data.message);

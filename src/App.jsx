@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Link, Routes, Route } from "react-router-dom";
 import LoginPage from "./modules/LoginPage";
 import ForgotPasswordPage from "./modules/ForgotPasswordPage";
@@ -7,6 +7,10 @@ import TransactionsPage from "./modules/TransactionsPage";
 import "./App.css";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true"
+  );
+
   return (
     <Router>
       <div>
@@ -16,31 +20,42 @@ function App() {
               Home
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to="/register" className="nav-link">
-              Register
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/forgot-password" className="nav-link">
-              Forgot password
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/transactions" className="nav-link">
-              Transactions
-            </Link>
-          </li>
-          <li className="nav-item ml-auto">
-            <Link to="/" className="nav-link">
-              Sign out
-            </Link>
-          </li>
+          {!isLoggedIn && (
+            <>
+              <li className="nav-item">
+                <Link to="/register" className="nav-link">
+                  Register
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/forgot-password" className="nav-link">
+                  Forgot password
+                </Link>
+              </li>
+            </>
+          )}
+          {isLoggedIn && (
+            <li className="nav-item ml-auto">
+              <Link
+                to="/"
+                className="nav-link"
+                onClick={() => {
+                  setIsLoggedIn(false);
+                  localStorage.setItem("isLoggedIn", "false");
+                }}
+              >
+                Sign out
+              </Link>
+            </li>
+          )}
         </ul>
 
         <div className="center-vertically">
           <Routes>
-            <Route path="/" element={<LoginPage />} />
+            <Route
+              path="/"
+              element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
+            />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/transactions" element={<TransactionsPage />} />
