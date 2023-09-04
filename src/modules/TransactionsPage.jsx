@@ -47,15 +47,25 @@ function TransactionsPage() {
   }
 
   const handleAmountChange = (event) => {
-    // format amount input to have commas
-    const formattedAmount = event.target.value
-      .replace(/[^\d.]/g, "")
-      .replace(/(\..*)\./g, "$1")
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    // format amount input to have commas and allow only two decimal places
+    let formattedAmount = event.target.value.replace(/[^\d.]/g, "");
+    const splitValue = formattedAmount.split(".");
+
+    if (splitValue.length > 2) {
+      formattedAmount = splitValue.shift() + "." + splitValue.join("");
+    }
+
+    if (splitValue[1]) {
+      splitValue[1] = splitValue[1].substring(0, 2);
+      formattedAmount = splitValue.join(".");
+    }
+
+    formattedAmount = formattedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
     setAmount(formattedAmount);
   };
 
-  // temporarily hardcoded user id
+  // TODO - temporarily hardcoded user id
   const userId = 1;
   const fetchTransactions = async () => {
     try {
