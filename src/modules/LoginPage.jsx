@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 function LoginPage({ setIsLoggedIn }) {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -14,17 +14,11 @@ function LoginPage({ setIsLoggedIn }) {
     }
   }, [navigate]);
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  // TODO - use library to hash password before sending to server
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
 
     try {
       const response = await fetch("http://localhost:4000/login", {
@@ -65,8 +59,7 @@ function LoginPage({ setIsLoggedIn }) {
                     type="email"
                     id="email"
                     name="email"
-                    value={email}
-                    onChange={handleEmailChange}
+                    ref={emailRef}
                     className="form-control"
                     placeholder="Enter your email"
                     autoComplete="email"
@@ -77,8 +70,7 @@ function LoginPage({ setIsLoggedIn }) {
                     type="password"
                     id="password"
                     name="password"
-                    value={password}
-                    onChange={handlePasswordChange}
+                    ref={passwordRef}
                     className="form-control"
                     placeholder="Enter your password"
                   />

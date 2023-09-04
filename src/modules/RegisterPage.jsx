@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -15,11 +15,11 @@ function RegisterPage() {
   };
 
   const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+    emailRef.current = event.target.value;
   };
 
   const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+    passwordRef.current = event.target.value;
   };
 
   const handleSubmit = async (event) => {
@@ -30,7 +30,11 @@ function RegisterPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({
+          name,
+          email: emailRef.current,
+          password: passwordRef.current,
+        }),
       });
 
       const data = await response.json();
@@ -111,7 +115,6 @@ function RegisterPage() {
                 <div className="form-group">
                   <input
                     type="email"
-                    value={email}
                     onChange={handleEmailChange}
                     className="form-control"
                     placeholder="Enter your email"
@@ -120,12 +123,12 @@ function RegisterPage() {
                 <div className="form-group">
                   <input
                     type="password"
-                    value={password}
                     onChange={handlePasswordChange}
                     className="form-control"
                     placeholder="Enter your password"
                   />
                 </div>
+
                 <button type="submit" className="btn btn-primary btn-block">
                   Register
                 </button>
