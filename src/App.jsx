@@ -31,6 +31,11 @@ function App() {
               Transactions
             </Link>
           </li>
+          <li className="nav-item ml-auto">
+            <Link to="/" className="nav-link">
+              Sign out
+            </Link>
+          </li>
         </ul>
 
         <div className="center-vertically">
