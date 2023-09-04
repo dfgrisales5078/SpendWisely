@@ -20,6 +20,18 @@ function LoginPage({ setIsLoggedIn }) {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+      setError("Invalid email format. Please enter a valid email address.");
+      return;
+    }
+
+    if (password.trim() === "") {
+      setError("Password cannot be empty.");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:4000/login", {
         method: "POST",
