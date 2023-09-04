@@ -6,6 +6,7 @@ function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -42,7 +43,12 @@ function RegisterPage() {
       }
 
       setError("");
-      navigate("/transactions");
+      setSuccessMessage("User registered successfully!");
+
+      setTimeout(() => {
+        setSuccessMessage("");
+        navigate("/");
+      }, 5000);
     } catch (error) {
       setError("An account with this email already exists.");
     }
@@ -68,6 +74,24 @@ function RegisterPage() {
                     data-dismiss="alert"
                     aria-label="Close"
                     onClick={() => setError("")}
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              )}
+
+              {successMessage && (
+                <div
+                  className="alert alert-success alert-dismissible fade show"
+                  role="alert"
+                >
+                  {successMessage}
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                    onClick={() => setSuccessMessage("")}
                   >
                     <span aria-hidden="true">&times;</span>
                   </button>
