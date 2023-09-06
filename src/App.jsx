@@ -11,6 +11,12 @@ function App() {
     localStorage.getItem("isLoggedIn") === "true"
   );
 
+  const handleSignOut = () => {
+    setIsLoggedIn(false);
+    localStorage.setItem("isLoggedIn", "false");
+    localStorage.removeItem("user_id");
+  };
+
   return (
     <Router>
       <div>
@@ -36,14 +42,7 @@ function App() {
           )}
           {isLoggedIn && (
             <li className="nav-item ml-auto">
-              <Link
-                to="/"
-                className="nav-link"
-                onClick={() => {
-                  setIsLoggedIn(false);
-                  localStorage.setItem("isLoggedIn", "false");
-                }}
-              >
+              <Link to="/" className="nav-link" onClick={handleSignOut}>
                 Sign out
               </Link>
             </li>
