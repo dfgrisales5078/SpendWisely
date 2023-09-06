@@ -52,7 +52,7 @@ function RegisterPage() {
       setTimeout(() => {
         setSuccessMessage("");
         navigate("/");
-      }, 5000);
+      }, 3000);
     } catch (error) {
       setError("An account with this email already exists.");
     }
