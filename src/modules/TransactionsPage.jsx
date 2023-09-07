@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 function TransactionsPage() {
+  const userId = localStorage.getItem("user_id");
   const [transactions, setTransactions] = useState([]);
   const [amount, setAmount] = useState("");
   const [transactionType, setTransactionType] = useState("Expense");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [filterType, setFilterType] = useState("All");
-
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
 
   const expenseCategories = [
     "Food",
@@ -65,11 +62,11 @@ function TransactionsPage() {
     setAmount(formattedAmount);
   };
 
-  // TODO - temporarily hardcoded user id
-  const userId = 1;
-  const fetchTransactions = async () => {
+  const fetchTransactions = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:4000/transactions/");
+      const response = await fetch(
+        `http://localhost:4000/transactions/?userId=${userId}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch transactions.");
       }
@@ -78,7 +75,11 @@ function TransactionsPage() {
     } catch (error) {
       console.error("Error fetching transactions:", error);
     }
-  };
+  }, [userId]); // Add necessary dependencies here
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
 
   const handleAddTransaction = async (event) => {
     event.preventDefault();
@@ -105,10 +106,10 @@ function TransactionsPage() {
           throw new Error("Failed to add transaction.");
         }
 
-        // If POST was successful, fetch the latest transactions
+        // Fetch the latest transactions
         fetchTransactions();
 
-        // Reset your form fields
+        // Reset form fields
         setSelectedCategory("");
         setAmount("");
       } catch (error) {

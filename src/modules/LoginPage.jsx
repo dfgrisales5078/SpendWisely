@@ -47,8 +47,6 @@ function LoginPage({ setIsLoggedIn }) {
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("user_id", data.user_id);
-        // TODO remove console.log
-        console.log("user_id", data.user_id);
 
         navigate("/transactions");
       } else {
