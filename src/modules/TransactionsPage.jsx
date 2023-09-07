@@ -2,11 +2,22 @@ import React, { useState, useEffect, useCallback } from "react";
 
 function TransactionsPage() {
   const userId = localStorage.getItem("user_id");
+  const name = localStorage.getItem("name");
   const [transactions, setTransactions] = useState([]);
   const [amount, setAmount] = useState("");
   const [transactionType, setTransactionType] = useState("Expense");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [filterType, setFilterType] = useState("All");
+
+  function capitalizeName(lowerCaseName) {
+    if (!lowerCaseName || typeof lowerCaseName !== "string") {
+      return "";
+    }
+    return lowerCaseName
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
 
   const expenseCategories = [
     "Food",
@@ -179,6 +190,7 @@ function TransactionsPage() {
   return (
     <div className="container mt-5 static-content">
       <div className="mb-4">
+        <h1 className="mb-4">Hello, {capitalizeName(name)}!</h1>
         <h2
           className={
             totalBalance > 0
