@@ -15,6 +15,7 @@ function App() {
     setIsLoggedIn(false);
     localStorage.setItem("isLoggedIn", "false");
     localStorage.removeItem("user_id");
+    localStorage.removeItem("name");
   };
 
   return (
