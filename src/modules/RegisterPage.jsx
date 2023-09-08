@@ -25,7 +25,7 @@ function RegisterPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("https://54.162.34.12:4000/register", {
+      const response = await fetch("https://54.162.34.12:443/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

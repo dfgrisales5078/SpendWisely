@@ -33,7 +33,7 @@ function LoginPage({ setIsLoggedIn }) {
     }
 
     try {
-      const response = await fetch("https://54.162.34.12:4000/login", {
+      const response = await fetch("https://54.162.34.12:443/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
