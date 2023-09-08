@@ -76,7 +76,7 @@ function TransactionsPage() {
   const fetchTransactions = useCallback(async () => {
     try {
       const response = await fetch(
-        `http://54.162.34.12:4000/transactions/?userId=${userId}`
+        `https://54.162.34.12:4000/transactions/?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch transactions.");
@@ -105,13 +105,16 @@ function TransactionsPage() {
       };
 
       try {
-        const response = await fetch("http://54.162.34.12:4000/transactions/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newTransaction),
-        });
+        const response = await fetch(
+          "https://54.162.34.12:4000/transactions/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newTransaction),
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to add transaction.");
@@ -131,7 +134,7 @@ function TransactionsPage() {
 
   const handleDeleteTransaction = async (transactionId) => {
     try {
-      await fetch(`http://54.162.34.12:4000/transactions/${transactionId}`, {
+      await fetch(`https://54.162.34.12:4000/transactions/${transactionId}`, {
         method: "DELETE",
       });
       const updatedTransactions = transactions.filter(
