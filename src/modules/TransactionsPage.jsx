@@ -86,7 +86,7 @@ function TransactionsPage() {
     } catch (error) {
       console.error("Error fetching transactions:", error);
     }
-  }, [userId]); // Add necessary dependencies here
+  }, [userId]);
 
   useEffect(() => {
     fetchTransactions();
