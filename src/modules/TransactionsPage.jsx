@@ -76,7 +76,7 @@ function TransactionsPage() {
   const fetchTransactions = useCallback(async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/transactions/?userId=${userId}`
+        `http://54.162.34.12:4000/transactions/?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch transactions.");
@@ -105,7 +105,7 @@ function TransactionsPage() {
       };
 
       try {
-        const response = await fetch("http://localhost:4000/transactions/", {
+        const response = await fetch("http://54.162.34.12:4000/transactions/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -131,7 +131,7 @@ function TransactionsPage() {
 
   const handleDeleteTransaction = async (transactionId) => {
     try {
-      await fetch(`http://localhost:4000/transactions/${transactionId}`, {
+      await fetch(`http://54.162.34.12:4000/transactions/${transactionId}`, {
         method: "DELETE",
       });
       const updatedTransactions = transactions.filter(
