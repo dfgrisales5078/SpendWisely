@@ -4,6 +4,7 @@ import LoginPage from "./modules/LoginPage";
 import ForgotPasswordPage from "./modules/ForgotPasswordPage";
 import RegisterPage from "./modules/RegisterPage";
 import TransactionsPage from "./modules/TransactionsPage";
+import GraphsPage from "./modules/GraphPage";
 import "./App.css";
 
 function App() {
@@ -27,6 +28,13 @@ function App() {
               Home
             </Link>
           </li>
+          {isLoggedIn && (
+            <li>
+              <Link to="/bar-graph" className="nav-link">
+                Bar Graph
+              </Link>
+            </li>
+          )}
           {!isLoggedIn && (
             <>
               <li className="nav-item">
@@ -59,6 +67,9 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/transactions" element={<TransactionsPage />} />
+            <Route path="/bar-graph" element={<GraphsPage />}>
+              {" "}
+            </Route>
           </Routes>
         </div>
       </div>
