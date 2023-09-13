@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 function TransactionsPage() {
+  const navigate = useNavigate();
   const userId = localStorage.getItem("user_id");
   const name = localStorage.getItem("name");
   const [transactions, setTransactions] = useState([]);
@@ -9,15 +11,12 @@ function TransactionsPage() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [filterType, setFilterType] = useState("All");
 
-  function capitalizeName(lowerCaseName) {
-    if (!lowerCaseName || typeof lowerCaseName !== "string") {
-      return "";
+  // Redirect to home page if user is not logged in
+  useEffect(() => {
+    if (!userId || !name) {
+      navigate("/");
     }
-    return lowerCaseName
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  }
+  }, [userId, name, navigate]);
 
   const expenseCategories = [
     "Food",
@@ -46,6 +45,16 @@ function TransactionsPage() {
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
   };
+
+  function capitalizeName(lowerCaseName) {
+    if (!lowerCaseName || typeof lowerCaseName !== "string") {
+      return "";
+    }
+    return lowerCaseName
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
 
   function getCurrentMonthYear() {
     const currentDate = new Date();
