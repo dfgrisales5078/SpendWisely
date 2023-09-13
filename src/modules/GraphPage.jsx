@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import { useNavigate } from "react-router-dom";
 
 Chart.register(...registerables);
 
 function GraphPage() {
   const [data, setData] = useState({});
   const [totalBalance, setTotalBalance] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userId = localStorage.getItem("user_id");
+
+        // redirect to login page if user is not logged in
+        if (!userId) {
+          navigate("/");
+          return;
+        }
+
         const response = await fetch(
           `http://localhost:2020/transactions/?userId=${userId}`
         );
