@@ -4,7 +4,7 @@ import LoginPage from "./modules/LoginPage";
 import ForgotPasswordPage from "./modules/ForgotPasswordPage";
 import RegisterPage from "./modules/RegisterPage";
 import TransactionsPage from "./modules/TransactionsPage";
-import GraphsPage from "./modules/GraphPage";
+import FinalcialOverviewPage from "./modules/FinalcialOverviewPage";
 import "./App.css";
 
 function App() {
@@ -30,8 +30,8 @@ function App() {
           </li>
           {isLoggedIn && (
             <li>
-              <Link to="/bar-graph" className="nav-link">
-                Bar Graph
+              <Link to="/financial-overview" className="nav-link">
+                Financial Overview
               </Link>
             </li>
           )}
@@ -67,7 +67,10 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/transactions" element={<TransactionsPage />} />
-            <Route path="/bar-graph" element={<GraphsPage />}>
+            <Route
+              path="/financial-overview"
+              element={<FinalcialOverviewPage />}
+            >
               {" "}
             </Route>
           </Routes>

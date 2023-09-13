@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 Chart.register(...registerables);
 
-function GraphPage() {
-  const [data, setData] = useState({});
+function FinalcialOverviewPage() {
+  const [barGraphData, setbarGraphData] = useState({});
   const [totalBalance, setTotalBalance] = useState(0);
   const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ function GraphPage() {
         const balance = parseFloat(totalIncome) - parseFloat(totalExpenses);
         setTotalBalance(balance);
 
-        setData({
+        setbarGraphData({
           labels: ["Income", "Expenses"],
           datasets: [
             {
@@ -76,9 +76,9 @@ function GraphPage() {
       </h2>
 
       <br />
-      {data.labels ? (
+      {barGraphData.labels ? (
         <Bar
-          data={data}
+          data={barGraphData}
           options={{
             scales: {
               y: {
@@ -113,4 +113,4 @@ function GraphPage() {
   );
 }
 
-export default GraphPage;
+export default FinalcialOverviewPage;
