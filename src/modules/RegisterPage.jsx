@@ -22,8 +22,26 @@ function RegisterPage() {
     passwordRef.current = event.target.value;
   };
 
+  const checkPasswordStrength = (password) => {
+    const min = 8;
+    const hasNumber = /\d/.test(password);
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+
+    if (password.length >= min && hasNumber && hasUpperCase && hasLowerCase) {
+      return true;
+    }
+    return false;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!checkPasswordStrength(passwordRef.current)) {
+      setError("Password is not strong enough.");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:2020/register", {
         method: "POST",
