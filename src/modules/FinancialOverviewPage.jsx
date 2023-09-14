@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 Chart.register(...registerables);
 
-function FinalcialOverviewPage() {
+function FinancialOverviewPage() {
   const [barGraphData, setbarGraphData] = useState({});
   const [totalBalance, setTotalBalance] = useState(0);
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ function FinalcialOverviewPage() {
       style={{ minHeight: "600px", minWidth: "1000px", margin: "50px auto" }}
     >
       <h2 style={{ textAlign: "center" }}>
-        Total Balance: $
+        Current Balance: $
         {totalBalance.toLocaleString(undefined, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
@@ -85,14 +85,14 @@ function FinalcialOverviewPage() {
                 beginAtZero: true,
                 ticks: {
                   font: {
-                    size: 25,
+                    size: 20,
                   },
                 },
               },
               x: {
                 ticks: {
                   font: {
-                    size: 25,
+                    size: 20,
                   },
                 },
               },
@@ -113,4 +113,4 @@ function FinalcialOverviewPage() {
   );
 }
 
-export default FinalcialOverviewPage;
+export default FinancialOverviewPage;

@@ -4,7 +4,7 @@ import LoginPage from "./modules/LoginPage";
 import ForgotPasswordPage from "./modules/ForgotPasswordPage";
 import RegisterPage from "./modules/RegisterPage";
 import TransactionsPage from "./modules/TransactionsPage";
-import FinalcialOverviewPage from "./modules/FinalcialOverviewPage";
+import FinancialOverviewPage from "./modules/FinancialOverviewPage";
 import "./App.css";
 
 function App() {
@@ -69,10 +69,8 @@ function App() {
             <Route path="/transactions" element={<TransactionsPage />} />
             <Route
               path="/financial-overview"
-              element={<FinalcialOverviewPage />}
-            >
-              {" "}
-            </Route>
+              element={<FinancialOverviewPage />}
+            ></Route>
           </Routes>
         </div>
       </div>

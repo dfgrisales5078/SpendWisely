@@ -126,7 +126,6 @@ function TransactionsPage() {
           throw new Error("Failed to add transaction.");
         }
 
-        // Fetch the latest transactions
         fetchTransactions();
 
         // Reset form fields
@@ -296,7 +295,7 @@ function TransactionsPage() {
             <th>Amount</th>
             <th>Category</th>
             <th>Type</th>
-            <th>Action</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
