@@ -266,7 +266,7 @@ function TransactionsPage() {
             placeholder="Enter amount"
           />
 
-          <div className="d-flex justify-end mt-4 pb-4">
+          <div className="d-flex justify-end mt-4 pb-10">
             <button
               type="submit"
               className="bg-blue-500 text-white py-2 px-4 justify-normal 
@@ -280,7 +280,7 @@ function TransactionsPage() {
         </form>
 
         <div>
-          <h4 className="text-2xl text-left">
+          <h4 className="text-2xl text-left px-10">
             Transaction history {getCurrentMonthYear()}:
           </h4>
           <table className="table-auto w-full text-center">
