@@ -274,19 +274,19 @@ function TransactionsPage() {
               hover:bg-blue-600 hover:shadow-lg active:bg-blue-700"
               disabled={!selectedCategory || !amount}
             >
-              Add Transaction
+              Add transaction
             </button>
           </div>
         </form>
 
         <div>
-          <h4 className="text-2xl text-left px-10">
-            Transaction history {getCurrentMonthYear()}:
+          <h4 className="text-2xl text-center pb-3">
+            Transaction history for {getCurrentMonthYear()}:
           </h4>
           <table className="table-auto w-full text-center">
             <thead>
               <tr>
-                <th colSpan="5" className="text-right pb-4">
+                <th colSpan="5" className="text-center pb-4">
                   {filterTypes.map((filter) => (
                     <button
                       key={filter.label}
