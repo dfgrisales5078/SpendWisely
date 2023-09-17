@@ -5,7 +5,7 @@ import ForgotPasswordPage from "./modules/ForgotPasswordPage";
 import RegisterPage from "./modules/RegisterPage";
 import TransactionsPage from "./modules/TransactionsPage";
 import FinancialOverviewPage from "./modules/FinancialOverviewPage";
-import "./App.css";
+import "./index.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -22,9 +22,9 @@ function App() {
   return (
     <Router>
       <div>
-        <ul className="nav nav-tabs">
+        <ul className="nav nav-tabs text-blue-500">
           <li className="nav-item">
-            <Link to="/" className="nav-link">
+            <Link to="/" className="nav-link ">
               Home
             </Link>
           </li>

@@ -61,54 +61,55 @@ function FinancialOverviewPage() {
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   return (
-    <div
-      style={{ minHeight: "600px", minWidth: "1000px", margin: "50px auto" }}
-    >
-      <h2 style={{ textAlign: "center" }}>
-        Current Balance: $
-        {totalBalance.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-      </h2>
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="p-6 rounded-lg bg-white w-full max-w-2xl">
+        <h2 className="text-4xl text-center p-3">
+          Current Balance: $
+          {totalBalance.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </h2>
 
-      <br />
-      {barGraphData.labels ? (
-        <Bar
-          data={barGraphData}
-          options={{
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  font: {
-                    size: 20,
+        {barGraphData.labels ? (
+          <div className="mt-6">
+            <Bar
+              data={barGraphData}
+              options={{
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
+                  },
+                  x: {
+                    ticks: {
+                      font: {
+                        size: 20,
+                      },
+                    },
                   },
                 },
-              },
-              x: {
-                ticks: {
-                  font: {
-                    size: 20,
+                plugins: {
+                  legend: {
+                    display: false,
                   },
                 },
-              },
-            },
-            plugins: {
-              legend: {
-                display: false,
-              },
-            },
-          }}
-          height={600}
-          width={1000}
-        />
-      ) : (
-        <p>Loading...</p>
-      )}
+              }}
+              height={400}
+              width={800}
+            />
+          </div>
+        ) : (
+          <p className="text-center mt-6">Loading...</p>
+        )}
+      </div>
     </div>
   );
 }

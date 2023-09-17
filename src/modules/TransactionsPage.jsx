@@ -196,158 +196,173 @@ function TransactionsPage() {
   ];
 
   return (
-    <div className="container mt-5 static-content">
-      <div className="mb-4">
-        <h1 className="mb-4">Hello, {capitalizeName(name)}!</h1>
-        <h2
-          className={
-            totalBalance > 0
-              ? "Income"
-              : totalBalance < 0
-              ? "Expense"
-              : "Neutral"
-          }
-        >
-          Total Balance: $
-          {totalBalance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-        </h2>
-        <h4>
-          Total Income: $
-          {totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-        </h4>
-        <h4>
-          Total Expenses: -$
-          {totalExpenses.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-        </h4>
-      </div>
-      <div className="mb-4">
-        <form onSubmit={handleAddTransaction}>
-          <div className="form-group">
-            <label>Type:</label>
-            <select
-              value={transactionType}
-              onChange={(e) => {
-                setTransactionType(e.target.value);
-                setSelectedCategory("");
-              }}
-              className="form-control"
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="p-6 rounded-lg w-full max-w-2xl">
+        <div className="mb-4">
+          <h1 className="text-4xl text-left pb-3">
+            Hello, {capitalizeName(name)}!
+          </h1>
+          <div className="text-left">
+            <h2
+              className={
+                totalBalance > 0
+                  ? "text-green-700 text-3xl"
+                  : totalBalance < 0
+                  ? "text-red-500 text-3xl"
+                  : "text-black text-3xl"
+              }
             >
-              <option value="Expense">Expense</option>
-              <option value="Income">Income</option>
-            </select>
+              Total Balance: $
+              {totalBalance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </h2>
+            <h4 className="text-2xl">
+              Total Income: $
+              {totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </h4>
+            <h4 className="text-2xl">
+              Total Expenses: -$
+              {totalExpenses.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </h4>
           </div>
-          <div className="form-group">
-            <label>Category:</label>
-            <select
-              value={selectedCategory}
-              onChange={handleCategoryChange}
-              className="form-control"
-            >
-              <option value="">Select a category</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Amount:</label>
-            <input
-              type="text"
-              value={amount}
-              onChange={handleAmountChange}
-              className="form-control"
-              placeholder="Enter amount"
-            />
-          </div>
-          <div className="d-flex justify-content-end">
+        </div>
+
+        <form onSubmit={handleAddTransaction} className="form-group mb-4">
+          <label>Type:</label>
+          <select
+            value={transactionType}
+            onChange={(e) => {
+              setTransactionType(e.target.value);
+              setSelectedCategory("");
+            }}
+            className="form-control w-full border rounded-lg outline-none 
+            focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="Expense">Expense</option>
+            <option value="Income">Income</option>
+          </select>
+
+          <label className="block mt-4 mb-2">Category:</label>
+          <select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            className="form-control w-full border rounded-lg outline-none 
+            focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+
+          <label className="block mt-4 mb-2">Amount:</label>
+          <input
+            type="text"
+            value={amount}
+            onChange={handleAmountChange}
+            className="form-control w-full border rounded-lg outline-none 
+            focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter amount"
+          />
+
+          <div className="d-flex justify-end mt-4">
             <button
               type="submit"
-              className="btn btn-primary"
+              className="bg-blue-500 text-white py-2 px-4 justify-normal 
+              rounded-lg shadow-md transition duration-300 ease-in-out 
+              hover:bg-blue-600 hover:shadow-lg active:bg-blue-700"
               disabled={!selectedCategory || !amount}
             >
               Add Transaction
             </button>
           </div>
         </form>
-      </div>
-      <h4>Transaction history {getCurrentMonthYear()}:</h4>
-      <table className="table centered-content">
-        <thead>
-          <tr>
-            <th colSpan="5" className="text-right">
-              {filterTypes.map((filter) => (
-                <button
-                  key={filter.label}
-                  className={`btn ${
-                    filterType === filter.label ? filter.className : "btn-light"
-                  }`}
-                  onClick={() => handleFilterChange(filter.label)}
-                >
-                  {filter.label}
-                </button>
-              ))}
-            </th>
-          </tr>
-          <tr>
-            <th>Date</th>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Type</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredTransactions.length ? (
-            filteredTransactions.map((transaction, index) => (
-              <tr key={index}>
-                <td>
-                  {new Date(transaction.transaction_date).toLocaleDateString()}
-                </td>
-                <td
-                  className={
-                    transaction.transaction_type === "expense"
-                      ? "Expense"
-                      : "Income"
-                  }
-                >
-                  {transaction.transaction_type === "expense" ? "-" : ""}$
-                  {parseFloat(transaction.transaction_amount).toLocaleString(
-                    "en-US",
-                    {
-                      style: "decimal",
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    }
-                  )}
-                </td>
-                <td>{transaction.category_name}</td>
-                <td>
-                  {transaction.transaction_type.charAt(0).toUpperCase() +
-                    transaction.transaction_type.slice(1)}
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() =>
-                      handleDeleteTransaction(transaction.transaction_id)
-                    }
-                  >
-                    Delete
-                  </button>
-                </td>
+
+        <div>
+          <h4 className="text-2xl text-left pb-4">
+            Transaction history {getCurrentMonthYear()}:
+          </h4>
+          <table className="table-auto w-full">
+            <thead>
+              <tr>
+                <th colSpan="5" className="text-right pb-4">
+                  {filterTypes.map((filter) => (
+                    <button
+                      key={filter.label}
+                      className={`btn py-1 px-3 ${
+                        filterType === filter.label
+                          ? filter.className
+                          : "btn-light"
+                      }`}
+                      onClick={() => handleFilterChange(filter.label)}
+                    >
+                      {filter.label}
+                    </button>
+                  ))}
+                </th>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="5" className="centered-content">
-                <h4>No transactions found.</h4>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+              <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredTransactions.length ? (
+                filteredTransactions.map((transaction, index) => (
+                  <tr key={index}>
+                    <td className="py-2">
+                      {new Date(
+                        transaction.transaction_date
+                      ).toLocaleDateString()}
+                    </td>
+                    <td
+                      className={`py-2 ${
+                        transaction.transaction_type === "expense"
+                          ? "text-red-500"
+                          : "text-green-700"
+                      }`}
+                    >
+                      {transaction.transaction_type === "expense" ? "-" : ""}$
+                      {parseFloat(
+                        transaction.transaction_amount
+                      ).toLocaleString("en-US", {
+                        style: "decimal",
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </td>
+                    <td className="py-2">{transaction.category_name}</td>
+                    <td className="py-2">
+                      {transaction.transaction_type.charAt(0).toUpperCase() +
+                        transaction.transaction_type.slice(1)}
+                    </td>
+                    <td className="py-2">
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() =>
+                          handleDeleteTransaction(transaction.transaction_id)
+                        }
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center py-4">
+                    <h4>No transactions found.</h4>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

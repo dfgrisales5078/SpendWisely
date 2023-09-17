@@ -60,71 +60,66 @@ function LoginPage({ setIsLoggedIn }) {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card border-0">
-            <div className="card-body">
-              <h2 className="card-title text-center mb-4">
-                Welcome to SpendWisely!
-              </h2>
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    ref={emailRef}
-                    className="form-control"
-                    placeholder="Enter your email"
-                    autoComplete="email"
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    ref={passwordRef}
-                    className="form-control"
-                    placeholder="Enter your password"
-                  />
-                </div>
-                <div>
-                  {error && (
-                    <div
-                      className="alert alert-danger alert-dismissible fade show"
-                      role="alert"
-                    >
-                      {error}
-                      <button
-                        type="button"
-                        className="close"
-                        data-dismiss="alert"
-                        aria-label="Close"
-                        onClick={() => setError("")}
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                  )}
-                  <button type="submit" className="btn btn-primary btn-block">
-                    Login
-                  </button>
-                  <p className="text-center mt-3">
-                    <a href="register" className="btn btn-link">
-                      Not enrolled? Sign up now!
-                    </a>
-                    <a href="forgot-password" className="btn btn-link">
-                      Forgot password?
-                    </a>
-                  </p>
-                </div>
-              </form>
-            </div>
-          </div>
+    <div className="flex items-center justify-center min-h-screen">
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <h2 className="text-4xl text-center p-3">Welcome to SpendWisely!</h2>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            ref={emailRef}
+            className="form-control"
+            placeholder="Enter your email"
+            autoComplete="email"
+          />
         </div>
-      </div>
+        <div className="form-group">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            ref={passwordRef}
+            className="form-control"
+            placeholder="Enter your password"
+          />
+        </div>
+        <div>
+          {error && (
+            <div
+              className="alert alert-danger alert-dismissible fade show"
+              role="alert"
+            >
+              {error}
+              <button
+                type="button"
+                className="close"
+                data-dismiss="alert"
+                aria-label="Close"
+                onClick={() => setError("")}
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          )}
+          <button
+            type="submit"
+            className="bg-blue-500 text-white w-full py-2 px-2 rounded-md 
+            shadow-md transition duration-300 ease-in-out hover:bg-blue-600 
+            hover:shadow-lg active:bg-blue-700"
+          >
+            Login
+          </button>
+          <p className="text-center mt-3">
+            <a href="register" className="btn btn-link">
+              Not enrolled? Sign up now!
+            </a>
+            <a href="forgot-password" className="btn btn-link">
+              Forgot password?
+            </a>
+          </p>
+        </div>
+      </form>
     </div>
   );
 }

@@ -77,84 +77,87 @@ function RegisterPage() {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card border-0">
-            <div className="card-body">
-              <h2 className="card-title text-center mb-4">Register</h2>
-
-              {error && (
-                <div
-                  className="alert alert-danger alert-dismissible fade show"
-                  role="alert"
-                >
-                  {error}
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="alert"
-                    aria-label="Close"
-                    onClick={() => setError("")}
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              )}
-
-              {successMessage && (
-                <div
-                  className="alert alert-success alert-dismissible fade show"
-                  role="alert"
-                >
-                  {successMessage}
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="alert"
-                    aria-label="Close"
-                    onClick={() => setSuccessMessage("")}
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={handleNameChange}
-                    className="form-control"
-                    placeholder="Enter your name"
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    type="email"
-                    onChange={handleEmailChange}
-                    className="form-control"
-                    placeholder="Enter your email"
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    onChange={handlePasswordChange}
-                    className="form-control"
-                    placeholder="Enter your password"
-                  />
-                </div>
-
-                <button type="submit" className="btn btn-primary btn-block">
-                  Register
-                </button>
-              </form>
-            </div>
-          </div>
+    <div className="flex items-center justify-center min-h-screen">
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <h2 className="text-4xl text-center p-3">Register now!</h2>
+          <input
+            type="text"
+            value={name}
+            onChange={handleNameChange}
+            className="form-control"
+            placeholder="Enter your name"
+          />
         </div>
-      </div>
+        <div className="form-group">
+          <input
+            type="email"
+            onChange={handleEmailChange}
+            className="form-control"
+            placeholder="Enter your email"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="password"
+            onChange={handlePasswordChange}
+            className="form-control"
+            placeholder="Enter your password"
+          />
+        </div>
+        <div>
+          {error && (
+            <div
+              className="alert alert-danger alert-dismissible fade show"
+              role="alert"
+            >
+              {error}
+              <button
+                type="button"
+                className="close"
+                data-dismiss="alert"
+                aria-label="Close"
+                onClick={() => setError("")}
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          )}
+          {successMessage && (
+            <div
+              className="alert alert-success alert-dismissible fade show"
+              role="alert"
+            >
+              {successMessage}
+              <button
+                type="button"
+                className="close"
+                data-dismiss="alert"
+                aria-label="Close"
+                onClick={() => setSuccessMessage("")}
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          )}
+          <button
+            type="submit"
+            className="bg-blue-500 text-white w-full py-2 px-2 rounded-md 
+            shadow-md transition duration-300 ease-in-out hover:bg-blue-600 
+            hover:shadow-lg active:bg-blue-700"
+          >
+            Register
+          </button>
+          <p className="text-center mt-3">
+            <a href="login" className="btn btn-link">
+              Already enrolled? Log in now!
+            </a>
+            <a href="forgot-password" className="btn btn-link">
+              Forgot password?
+            </a>
+          </p>
+        </div>
+      </form>
     </div>
   );
 }
