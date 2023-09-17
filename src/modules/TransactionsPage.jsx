@@ -198,7 +198,7 @@ function TransactionsPage() {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="p-6 rounded-lg w-full max-w-4xl">
-        <div className="mb-4">
+        <div className="mb-4 py-9">
           <h1 className="text-4xl text-left pb-3">
             Hello, {capitalizeName(name)}!
           </h1>
@@ -280,10 +280,10 @@ function TransactionsPage() {
         </form>
 
         <div>
-          <h4 className="text-2xl text-left pb-4">
+          <h4 className="text-2xl text-left">
             Transaction history {getCurrentMonthYear()}:
           </h4>
-          <table className="table-auto w-full">
+          <table className="table-auto w-full text-center">
             <thead>
               <tr>
                 <th colSpan="5" className="text-right pb-4">
