@@ -197,7 +197,7 @@ function TransactionsPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="p-6 rounded-lg w-full max-w-2xl">
+      <div className="p-6 rounded-lg w-full max-w-4xl">
         <div className="mb-4">
           <h1 className="text-4xl text-left pb-3">
             Hello, {capitalizeName(name)}!
@@ -266,7 +266,7 @@ function TransactionsPage() {
             placeholder="Enter amount"
           />
 
-          <div className="d-flex justify-end mt-4">
+          <div className="d-flex justify-end mt-4 pb-4">
             <button
               type="submit"
               className="bg-blue-500 text-white py-2 px-4 justify-normal 
