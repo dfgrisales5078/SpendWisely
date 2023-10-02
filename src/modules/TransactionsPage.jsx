@@ -227,7 +227,7 @@ function TransactionsPage() {
         </div>
 
         <form onSubmit={handleAddTransaction} className="form-group mb-4">
-          <label>Type:</label>
+          <label>Transaction type:</label>
           <select
             value={transactionType}
             onChange={(e) => {
@@ -241,7 +241,7 @@ function TransactionsPage() {
             <option value="Income">Income</option>
           </select>
 
-          <label className="block mt-4 mb-2">Category:</label>
+          <label className="block mt-4 mb-2">Transaction category:</label>
           <select
             value={selectedCategory}
             onChange={handleCategoryChange}
@@ -256,7 +256,7 @@ function TransactionsPage() {
             ))}
           </select>
 
-          <label className="block mt-4 mb-2">Amount:</label>
+          <label className="block mt-4 mb-2">Transaction amount:</label>
           <input
             type="text"
             value={amount}
@@ -269,9 +269,12 @@ function TransactionsPage() {
           <div className="d-flex justify-end mt-4 pb-10">
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 justify-normal 
-              rounded-lg shadow-md transition duration-300 ease-in-out 
-              hover:bg-blue-600 hover:shadow-lg active:bg-blue-700"
+              className={`bg-blue-500 hover:bg-blue-700 text-white 
+              font-bold py-2 px-4 rounded ${
+                !selectedCategory || !amount
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
               disabled={!selectedCategory || !amount}
             >
               Add transaction
