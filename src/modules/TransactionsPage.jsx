@@ -199,10 +199,10 @@ function TransactionsPage() {
     <div className="flex items-center justify-center min-h-screen">
       <div className="p-6 rounded-lg w-full max-w-4xl">
         <div className="mb-4 py-9">
-          <h1 className="text-4xl text-left pb-3">
+          <h1 className="text-4xl text-center pb-3">
             Hello, {capitalizeName(name)}!
           </h1>
-          <div className="text-left">
+          <div className="text-center">
             <h2
               className={
                 totalBalance > 0
@@ -226,61 +226,66 @@ function TransactionsPage() {
           </div>
         </div>
 
-        <form onSubmit={handleAddTransaction} className="form-group mb-4">
-          <label>Transaction type:</label>
-          <select
-            value={transactionType}
-            onChange={(e) => {
-              setTransactionType(e.target.value);
-              setSelectedCategory("");
-            }}
-            className="form-control w-full border rounded-lg outline-none 
-            focus:ring-2 focus:ring-blue-500"
+        <div className="flex items-center justify-center">
+          <form
+            onSubmit={handleAddTransaction}
+            className="form-group justify-center w-full max-w-xl"
           >
-            <option value="Expense">Expense</option>
-            <option value="Income">Income</option>
-          </select>
-
-          <label className="block mt-4 mb-2">Transaction category:</label>
-          <select
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-            className="form-control w-full border rounded-lg outline-none 
+            <label>Transaction type:</label>
+            <select
+              value={transactionType}
+              onChange={(e) => {
+                setTransactionType(e.target.value);
+                setSelectedCategory("");
+              }}
+              className="form-control w-full border rounded-lg outline-none 
             focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Select a category</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
+            >
+              <option value="Expense">Expense</option>
+              <option value="Income">Income</option>
+            </select>
 
-          <label className="block mt-4 mb-2">Transaction amount:</label>
-          <input
-            type="text"
-            value={amount}
-            onChange={handleAmountChange}
-            className="form-control w-full border rounded-lg outline-none 
+            <label className="block mt-4 mb-2">Transaction category:</label>
+            <select
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+              className="form-control w-full border rounded-lg outline-none 
             focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter amount"
-          />
+            >
+              <option value="">Select a category</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
 
-          <div className="d-flex justify-end mt-4 pb-10">
-            <button
-              type="submit"
-              className={`bg-blue-500 hover:bg-blue-700 text-white 
+            <label className="block mt-4 mb-2">Transaction amount:</label>
+            <input
+              type="text"
+              value={amount}
+              onChange={handleAmountChange}
+              className="form-control w-full border rounded-lg outline-none 
+            focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter amount"
+            />
+
+            <div className="d-flex justify-center mt-4 pb-10">
+              <button
+                type="submit"
+                className={`bg-blue-500 hover:bg-blue-700 text-white 
               font-bold py-2 px-4 rounded ${
                 !selectedCategory || !amount
                   ? "opacity-50 cursor-not-allowed"
                   : ""
               }`}
-              disabled={!selectedCategory || !amount}
-            >
-              Add transaction
-            </button>
-          </div>
-        </form>
+                disabled={!selectedCategory || !amount}
+              >
+                Add transaction
+              </button>
+            </div>
+          </form>
+        </div>
 
         <div>
           <h4 className="text-2xl text-center pb-3">
