@@ -1,6 +1,6 @@
 import React from "react";
 
-function AddTransactionForm({
+function TransactionForm({
   transactionType,
   setTransactionType,
   selectedCategory,
@@ -69,4 +69,4 @@ function AddTransactionForm({
   );
 }
 
-export default AddTransactionForm;
+export default TransactionForm;

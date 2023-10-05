@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import UserInfo from "../components/UserInfo";
-import AddTransactionForm from "../components/AddTransactionForm";
+import TransactionForm from "../components/TransactionForm";
 import TransactionsTable from "../components/TransactionsTable";
 
 function TransactionsPage() {
@@ -175,7 +175,7 @@ function TransactionsPage() {
           totalIncome={totalIncome}
           totalExpenses={totalExpenses}
         />
-        <AddTransactionForm
+        <TransactionForm
           transactionType={transactionType}
           setTransactionType={setTransactionType}
           selectedCategory={selectedCategory}
