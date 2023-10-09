@@ -5,9 +5,14 @@ function UserInfo({ name, totalBalance, totalIncome, totalExpenses }) {
     return amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  let uppercase_name = name
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
   return (
     <div className="mb-4 py-9">
-      <h1 className="text-4xl text-center pb-3">Hello, {name}!</h1>
+      <h1 className="text-4xl text-center pb-3">Hello, {uppercase_name}!</h1>
       <div className="text-center">
         <h2
           className={
