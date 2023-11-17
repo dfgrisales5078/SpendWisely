@@ -49,7 +49,7 @@ function LoginPage({ setIsLoggedIn }) {
 
       const data = await response.json();
 
-      // if successful, update the state variables
+      // if request is successful, update the state variables
       if (response.status === 200) {
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");
