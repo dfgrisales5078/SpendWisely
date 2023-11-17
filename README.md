@@ -8,3 +8,6 @@ The project consists of a website targeting college students as its users. It's 
 
 ### Backend Repository: 
 https://github.com/dfgrisales5078/SpendWisely-Server
+
+### User interface testing using Selenium and Java:
+https://github.com/dfgrisales5078/SpendWisely-Java-Selenium-Testing
