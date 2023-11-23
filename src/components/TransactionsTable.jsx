@@ -20,9 +20,7 @@ const TransactionsTable = ({
   return (
     <div>
       <h4 className="text-2xl text-center pb-3">
-        Transaction history for{" "}
-        {new Date().toLocaleString("default", { month: "long" })}{" "}
-        {new Date().getFullYear()}:
+        Transaction history for {new Date().getFullYear()}:
       </h4>
       <table className="table-auto w-full text-center">
         <thead>
